@@ -1,0 +1,5 @@
+# Multiple attributes are added and printed successfully
+	xattr -w test_attr test_val file && 
+	xattr -w test_attr2 test_val2 file &&
+	xattr -p test_attr file &&
+	xattr -p test_attr2 file

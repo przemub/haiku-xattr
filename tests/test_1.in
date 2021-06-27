@@ -1,0 +1,2 @@
+# Added attribute is listed
+	xattr -w test_attr test_val file && xattr file

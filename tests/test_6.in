@@ -1,0 +1,5 @@
+# Attributes can be cleared
+	xattr -w test_attr test_val file && 
+	xattr -w test_attr2 test_val2 file &&
+	xattr -c file &&
+	xattr file
