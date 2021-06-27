@@ -1,0 +1,69 @@
+#!/bin/bash
+set -euo pipefail
+
+[ -n "${DEBUG:-}" ] && set -x
+
+usage() {
+	echo "Usage: $0"	
+}
+
+action="list"
+while getopts "pwdch" option
+do
+	case "$option" in
+		p)
+			action="print"
+			;;
+		w)
+			action="write"
+			;;
+		d)
+			action="delete"
+			;;
+		c)
+			action="clear"
+			;;
+		h)
+			usage
+			exit 0
+			;;
+		*)
+			usage
+			exit 1
+			;;
+	esac
+done
+shift $((OPTIND-1))
+
+list_attributes () {
+	listattr "$@" | tail -n +4 | head -n -2 | tr -s ' ' | cut -f 4 -d " " | cut -d '"' -f 2
+}
+
+case "$action" in 
+	list)
+		list_attributes
+		exit $?
+		;;
+	print)
+		catattr -d "$@"
+		exit $?
+		;;
+	write)
+		addattr "$@"
+		exit $?
+		;;
+	delete)
+		rmattr "$@"
+		exit $?
+		;;
+	clear)
+		list_attributes | while IFS= read -r attribute
+		do
+			rmattr $attribute "$@"
+		done
+		;;
+	*)
+		echo "What did just happen here?"
+		exit 2137
+esac
+
