@@ -41,7 +41,7 @@ list_attributes () {
 
 case "$action" in 
 	list)
-		list_attributes
+		list_attributes "$@"
 		exit $?
 		;;
 	print)
@@ -57,7 +57,7 @@ case "$action" in
 		exit $?
 		;;
 	clear)
-		list_attributes | while IFS= read -r attribute
+		list_attributes "$@" | while IFS= read -r attribute
 		do
 			rmattr $attribute "$@"
 		done
